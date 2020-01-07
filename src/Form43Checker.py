@@ -29,10 +29,13 @@ class Form43Checker(mobase.IPluginDiagnose):
         return mobase.VersionInfo(1, 0, 0, mobase.ReleaseType.prealpha)
 
     def isActive(self):
-        return self.__organizer.managedGame().gameName() == "Skyrim Special Edition"
+        return self.__organizer.managedGame().gameName() == "Skyrim Special Edition" and\
+               self.__organizer.pluginSetting(self.name(), "enabled")
 
     def settings(self):
-        return []
+        return [
+            mobase.PluginSetting("enabled", self.__tr("Enable plugin"), True)
+        ]
 
     def activeProblems(self):
         if self.__scanPlugins():
