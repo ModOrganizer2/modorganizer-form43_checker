@@ -26,7 +26,7 @@ class Form43Checker(mobase.IPluginDiagnose):
         return self.__tr("Checks plugins (.ESM/.ESP files) to see if any are Form 43 (Skyrim LE).")
 
     def version(self):
-        return mobase.VersionInfo(1, 0, 0, mobase.ReleaseType.prealpha)
+        return mobase.VersionInfo(1, 1, 0, mobase.ReleaseType.prealpha)
 
     def isActive(self):
         return (self.__organizer.managedGame().gameName() == "Skyrim Special Edition" and
@@ -49,8 +49,14 @@ class Form43Checker(mobase.IPluginDiagnose):
     def fullDescription(self, key):
         pluginList = self.__listPlugins()
         pluginList = [Path(absolutePath).name for absolutePath in pluginList]
-        pluginListString = "\n• " + ("\n• ".join(pluginList))
-        return self.__tr("You have one or more Form 43 plugins. They are:{0}").format(pluginListString)
+        pluginListString = "\n\n•  " + ("\n•  ".join(pluginList))
+        outputString = self.__tr("You have one or more form 43 plugins. They are:{0}").format(pluginListString)
+        outputString += "\n\n"
+        outputString += self.__tr("The form 43 warning typically involves Skyrim LE plugins that were ported to a Skyrim SE install.\n"
+                                  "The latest version of plugin files that was released on LE was 43, while SE has a newer version 44.\n"
+                                  "Sometimes the game is able to load older records and so this may not be an issue, however, it is\n"
+                                  "typically ideal to convert the plugin files to the latest version with the Skyrim SE Creation Kit.\n")
+        return outputString
 
     def hasGuidedFix(self, key):
         return False

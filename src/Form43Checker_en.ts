@@ -14,7 +14,16 @@
     </message>
     <message>
         <location filename="Form43Checker.py" line="50"/>
-        <source>You have one or more Form 43 plugins. They are:{0}</source>
+        <source>You have one or more form 43 plugins. They are:{0}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Form43Checker.py" line="52"/>
+        <source>The form 43 warning typically involves Skyrim LE plugins that were ported to a Skyrim SE install.
+The latest version of plugin files that was released on LE was 43, while SE has a newer version 44.
+Sometimes, the game is able to load older records and so this may not be an issue, however, it is
+typically ideal to convert the plugin files to the latest version with the Skyrim SE Creation Kit.
+</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
