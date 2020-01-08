@@ -49,13 +49,18 @@ class Form43Checker(mobase.IPluginDiagnose):
     def fullDescription(self, key):
         pluginList = self.__listPlugins()
         pluginList = [Path(absolutePath).name for absolutePath in pluginList]
-        pluginListString = "\n\n•  " + ("\n•  ".join(pluginList))
+        pluginListString = "<br><br>•  " + ("<br>•  ".join(pluginList))
         outputString = self.__tr("You have one or more form 43 plugins. They are:{0}").format(pluginListString)
-        outputString += "\n\n"
-        outputString += self.__tr("The form 43 warning typically involves Skyrim LE plugins that were ported to a Skyrim SE install.\n"
-                                  "The latest version of plugin files that was released on LE was 43, while SE has a newer version 44.\n"
-                                  "Sometimes the game is able to load older records and so this may not be an issue, however, it is\n"
-                                  "typically ideal to convert the plugin files to the latest version with the Skyrim SE Creation Kit.\n")
+        outputString += "<br><br>"
+        outputString += self.__tr("Form 43 plugins are modules that were made for Skyrim LE (Oldrim) and have not been properly "
+                                  "ported to Skyrim Special Edition, which uses form 44 plugins. This usually results in parts "
+                                  "of the mod not working correctly."
+                                  "<br><br>"
+                                  "To be converted, these plugins simply need to be opened and saved with the SSE Creation Kit "
+                                  "but their presence can be an indication that a mod was not properly ported to SSE and so "
+                                  "can potentially have additional issues." 
+                                  "<br><br>"
+                                  "Online guides can have more information on how to correctly convert mods for Skyrim SE. <br>")
         return outputString
 
     def hasGuidedFix(self, key):
