@@ -46,7 +46,7 @@ class Form43Checker(mobase.IPluginDiagnose):
     def fullDescription(self, key):
         pluginList = self.__listPlugins()
         pluginList = [Path(absolutePath).name for absolutePath in pluginList]
-        pluginListString = "\n\n•  " + ("\n• ".join(pluginList))
+        pluginListString = "\n\n•  " + ("\n•  ".join(pluginList))
         outputString = self.__tr("You have one or more form 43 plugins. They are:{0}").format(pluginListString)
         outputString += "\n\n"
         outputString += self.__tr("The form 43 warning typically involves Skyrim LE plugins that were ported to a Skyrim SE install.\n"
