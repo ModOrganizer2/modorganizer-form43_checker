@@ -8,22 +8,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Form43Checker.py" line="44"/>
+        <location filename="Form43Checker.py" line="37"/>
+        <source>Enable plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Form43Checker.py" line="47"/>
         <source>Form 43 plugin detected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Form43Checker.py" line="50"/>
+        <location filename="Form43Checker.py" line="53"/>
         <source>You have one or more form 43 plugins. They are:{0}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Form43Checker.py" line="52"/>
-        <source>The form 43 warning typically involves Skyrim LE plugins that were ported to a Skyrim SE install.
-The latest version of plugin files that was released on LE was 43, while SE has a newer version 44.
-Sometimes, the game is able to load older records and so this may not be an issue, however, it is
-typically ideal to convert the plugin files to the latest version with the Skyrim SE Creation Kit.
-</source>
+        <location filename="Form43Checker.py" line="55"/>
+        <source>Form 43 plugins are modules that were made for Skyrim LE (Oldrim) and have not been properly ported to Skyrim Special Edition, which uses form 44 plugins. This usually results in parts of the mod not working correctly.&lt;br&gt;&lt;br&gt;To be converted, these plugins simply need to be opened and saved with the SSE Creation Kit but their presence can be an indication that a mod was not properly ported to SSE and so can potentially have additional issues.&lt;br&gt;&lt;br&gt;Online guides can have more information on how to correctly convert mods for Skyrim SE. &lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
