@@ -89,32 +89,19 @@ class Form43Checker(mobase.IPluginDiagnose):
         else:
             return "invalid"
 
+    def __listInvalidFiles(self):
+        for file in self.__organizer.findFiles("", "*.es[pm]"):
+            if self.__testFile(file):
+                yield file
+
     def __scanPlugins(self):
         if self.__organizer.managedGame().gameName() != "Skyrim Special Edition":
             return False
 
-        def isPluginFile(name):
-            extension = Path(name).suffix
-            extension = extension.lower()
-            return extension == ".esp" or extension == ".esm"
-
-        fileList = self.__organizer.findFiles("", isPluginFile)
-
-        for file in fileList:
-            if self.__testFile(file):
-                return True
-
-        return False
+        return any(True for _ in self.__listInvalidFiles())
 
     def __listPlugins(self):
-        def isPluginFile(name):
-            extension = Path(name).suffix
-            extension = extension.lower()
-            return extension == ".esp" or extension == ".esm"
-
-        fileList = self.__organizer.findFiles("", isPluginFile)
-
-        return ["{} (form {})".format(file, self.__getForm(file)) for file in fileList if self.__testFile(file)]
+        return ["{} (form {})".format(file, self.__getForm(file)) for file in self.__listInvalidFiles()]
 
 
 def createPlugin():
