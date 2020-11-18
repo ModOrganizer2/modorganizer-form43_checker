@@ -19,6 +19,9 @@ class Form43Checker(mobase.IPluginDiagnose):
     def name(self):
         return "Form 43 Plugin Checker"
 
+    def localizedName(self):
+        return "Form 43 Plugin Checker"
+
     def author(self):
         return "AnyOldName3"
 
@@ -28,14 +31,12 @@ class Form43Checker(mobase.IPluginDiagnose):
     def version(self):
         return mobase.VersionInfo(1, 2, 0, mobase.ReleaseType.prealpha)
 
-    def isActive(self):
-        return (self.__organizer.managedGame().gameName() == "Skyrim Special Edition" and
-                self.__organizer.pluginSetting(self.name(), "enabled") is True)
-
-    def settings(self):
+    def requirements(self):
         return [
-            mobase.PluginSetting("enabled", self.__tr("Enable plugin"), True)
+            mobase.PluginRequirementFactory.gameDependency("Skyrim Special Edition")
         ]
+    def settings(self):
+        return []
 
     def activeProblems(self):
         if self.__scanPlugins():
@@ -58,7 +59,7 @@ class Form43Checker(mobase.IPluginDiagnose):
                                   "<br><br>"
                                   "To be converted, these plugins simply need to be opened and saved with the SSE Creation Kit "
                                   "but their presence can be an indication that a mod was not properly ported to SSE and so "
-                                  "can potentially have additional issues." 
+                                  "can potentially have additional issues."
                                   "<br><br>"
                                   "Online guides can have more information on how to correctly convert mods for Skyrim SE.<br>")
         return outputString
