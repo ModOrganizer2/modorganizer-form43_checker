@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 
-from PyQt5.QtCore import QCoreApplication
+from PyQt6.QtCore import QCoreApplication
 
 if "mobase" not in sys.modules:
     import mock_mobase as mobase
