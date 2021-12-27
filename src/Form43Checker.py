@@ -72,7 +72,7 @@ class Form43Checker(mobase.IPluginDiagnose):
         pass
 
     def tr(self, str):
-        return QCoreApplication.tr("Form43Checker", str)
+        return QCoreApplication.translate("Form43Checker", str)
 
     def __testFile(self, path):
         version = self.__getForm(path)
