@@ -101,9 +101,6 @@ class Form43Checker(mobase.IPluginDiagnose):
                 yield file
 
     def __scanPlugins(self):
-        if self.__organizer.managedGame().gameName() != "Skyrim Special Edition":
-            return False
-
         # Return True if there is at least one invalid file:
         return next(self.__listInvalidFiles(), False)
 
