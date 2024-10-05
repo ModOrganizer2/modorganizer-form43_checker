@@ -30,7 +30,7 @@ class Form43Checker(mobase.IPluginDiagnose):
         )
 
     def version(self):
-        return mobase.VersionInfo(1, 2, 0, mobase.ReleaseType.PRE_ALPHA)
+        return mobase.VersionInfo(1, 2, 0, 0, mobase.ReleaseType.FINAL)
 
     def requirements(self):
         return [
