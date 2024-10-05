@@ -6,6 +6,7 @@ from PyQt6.QtCore import QCoreApplication
 
 class Form43Checker(mobase.IPluginDiagnose):
     __organizer: mobase.IOrganizer
+    __invalidPlugins: list[str] = []
 
     def __init__(self):
         super().__init__()
@@ -40,7 +41,8 @@ class Form43Checker(mobase.IPluginDiagnose):
         return []
 
     def activeProblems(self) -> list[int]:
-        if self.__scanPlugins():
+        self.__updateInvalidPlugins()
+        if self.__invalidPlugins:
             return [0]
         else:
             return []
@@ -50,7 +52,6 @@ class Form43Checker(mobase.IPluginDiagnose):
 
     def fullDescription(self, key: int) -> str:
         pluginList = self.__listPlugins()
-        pluginList = [Path(absolutePath).name for absolutePath in pluginList]
         pluginListString = "<br><br>•  " + ("<br>•  ".join(pluginList))
         outputString = self.tr(
             "You have one or more plugins that are not form 44. They are:{0}"
@@ -95,19 +96,16 @@ class Form43Checker(mobase.IPluginDiagnose):
         else:
             return "invalid"
 
-    def __listInvalidFiles(self):
+    def __updateInvalidPlugins(self) -> None:
+        self.__invalidPlugins.clear()
         for file in self.__organizer.findFiles("", "*.es[pm]"):
             if self.__testFile(file):
-                yield file
+                self.__invalidPlugins.append(file)
 
-    def __scanPlugins(self):
-        # Return True if there is at least one invalid file:
-        return next(self.__listInvalidFiles(), False)
-
-    def __listPlugins(self):
+    def __listPlugins(self) -> list[str]:
         return [
-            "{} (form {})".format(file, self.__getForm(file))
-            for file in self.__listInvalidFiles()
+            f"{Path(file).name} (form {self.__getForm(file)})"
+            for file in self.__invalidPlugins
         ]
 
 
