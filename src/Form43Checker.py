@@ -80,21 +80,13 @@ class Form43Checker(mobase.IPluginDiagnose):
     def tr(self, value: str):
         return QCoreApplication.translate("Form43Checker", value)
 
-    def __testFile(self, path: str) -> bool | None:
+    def __testFile(self, path: str) -> bool:
         version = self.__getForm(path)
-        if isinstance(version, int):
-            return version < 44
-        else:
-            return None
-
-    def __getForm(self, file: str) -> int | str:
-        path = Path(file)
-        if path.is_file():
-            with path.open(mode="rb") as fp:
-                fp.seek(20)
-                return int.from_bytes(fp.read(2), byteorder="little")
-        else:
-            return "invalid"
+        return version != -1 and version < 44
+        
+    def __getForm(self, file: str) -> int:
+        pluginName = Path(file).name
+        return self.__organizer.pluginList().formVersion(pluginName)
 
     def __updateInvalidPlugins(self) -> None:
         self.__invalidPlugins.clear()
