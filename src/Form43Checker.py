@@ -6,6 +6,7 @@ from PyQt6.QtCore import QCoreApplication
 
 class Form43Checker(mobase.IPluginDiagnose):
     __organizer: mobase.IOrganizer
+    __invalidPlugins: list[str] = []
 
     def __init__(self):
         super().__init__()
@@ -29,7 +30,7 @@ class Form43Checker(mobase.IPluginDiagnose):
         )
 
     def version(self):
-        return mobase.VersionInfo(1, 2, 0, mobase.ReleaseType.PRE_ALPHA)
+        return mobase.VersionInfo(1, 2, 0, 0, mobase.ReleaseType.FINAL)
 
     def requirements(self):
         return [
@@ -40,7 +41,8 @@ class Form43Checker(mobase.IPluginDiagnose):
         return []
 
     def activeProblems(self) -> list[int]:
-        if self.__scanPlugins():
+        self.__updateInvalidPlugins()
+        if self.__invalidPlugins:
             return [0]
         else:
             return []
@@ -50,7 +52,6 @@ class Form43Checker(mobase.IPluginDiagnose):
 
     def fullDescription(self, key: int) -> str:
         pluginList = self.__listPlugins()
-        pluginList = [Path(absolutePath).name for absolutePath in pluginList]
         pluginListString = "<br><br>•  " + ("<br>•  ".join(pluginList))
         outputString = self.tr(
             "You have one or more plugins that are not form 44. They are:{0}"
@@ -79,38 +80,24 @@ class Form43Checker(mobase.IPluginDiagnose):
     def tr(self, value: str):
         return QCoreApplication.translate("Form43Checker", value)
 
-    def __testFile(self, path: str) -> bool | None:
+    def __testFile(self, path: str) -> bool:
         version = self.__getForm(path)
-        if isinstance(version, int):
-            return version < 44
-        else:
-            return None
+        return version != -1 and version < 44
+        
+    def __getForm(self, file: str) -> int:
+        pluginName = Path(file).name
+        return self.__organizer.pluginList().formVersion(pluginName)
 
-    def __getForm(self, file: str) -> int | str:
-        path = Path(file)
-        if path.is_file():
-            with path.open(mode="rb") as fp:
-                fp.seek(20)
-                return int.from_bytes(fp.read(2), byteorder="little")
-        else:
-            return "invalid"
-
-    def __listInvalidFiles(self):
+    def __updateInvalidPlugins(self) -> None:
+        self.__invalidPlugins.clear()
         for file in self.__organizer.findFiles("", "*.es[pm]"):
             if self.__testFile(file):
-                yield file
+                self.__invalidPlugins.append(file)
 
-    def __scanPlugins(self):
-        if self.__organizer.managedGame().gameName() != "Skyrim Special Edition":
-            return False
-
-        # Return True if there is at least one invalid file:
-        return next(self.__listInvalidFiles(), False)
-
-    def __listPlugins(self):
+    def __listPlugins(self) -> list[str]:
         return [
-            "{} (form {})".format(file, self.__getForm(file))
-            for file in self.__listInvalidFiles()
+            f"{Path(file).name} (form {self.__getForm(file)})"
+            for file in self.__invalidPlugins
         ]
 
 
