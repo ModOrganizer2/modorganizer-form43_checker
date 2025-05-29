@@ -83,7 +83,7 @@ class Form43Checker(mobase.IPluginDiagnose):
     def __testFile(self, path: str) -> bool:
         version = self.__getForm(path)
         return version != -1 and version < 44
-        
+
     def __getForm(self, file: str) -> int:
         pluginName = Path(file).name
         return self.__organizer.pluginList().formVersion(pluginName)
